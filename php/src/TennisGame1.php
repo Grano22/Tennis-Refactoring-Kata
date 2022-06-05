@@ -2,6 +2,11 @@
 
 namespace TennisGame;
 
+use TennisGame\Application\Repository\PlayersRepository;
+use TennisGame\Domain\Exception\PlayerNickIsAlreadyTaken;
+use TennisGame\Domain\Player;
+use TennisGame\Domain\Policy\PlayerRegistrationPolicy;
+
 class TennisGame1 implements TennisGame
 {
     private $m_score1 = 0;
@@ -9,10 +14,12 @@ class TennisGame1 implements TennisGame
     private $player1Name = '';
     private $player2Name = '';
 
-    public function __construct($player1Name, $player2Name)
-    {
-        $this->player1Name = $player1Name;
-        $this->player2Name = $player2Name;
+    public function __construct(
+        private readonly PlayerRegistrationPolicy $playerRegistrationPolicy,
+        private readonly PlayersRepository $playersRepository,
+        string $firstPlayerNick, string $secondPlayerNick
+    ) {
+        $this->registerPlayers(new Player($firstPlayerNick), new Player($secondPlayerNick));
     }
 
     public function wonPoint($playerName)
@@ -78,5 +85,22 @@ class TennisGame1 implements TennisGame
             }
         }
         return $score;
+    }
+
+    /**
+     * @throws PlayerNickIsAlreadyTaken
+     */
+    private function registerPlayers(Player ...$players): void
+    {
+        foreach ($players as $player) {
+            if (!$this->playerRegistrationPolicy->usernameIsUnique($player->nick)) {
+                throw PlayerNickIsAlreadyTaken::forGivenNick($player->nick);
+            }
+
+            $this->playersRepository->store($player->nick);
+        }
+
+        $this->player1Name = $players[0]->nick;
+        $this->player2Name = $players[1]->nick;
     }
 }

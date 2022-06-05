@@ -1,1 +1,3 @@
 composer phpstan 
+pause
+exit
