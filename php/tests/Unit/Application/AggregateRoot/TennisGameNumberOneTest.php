@@ -2,14 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Tests;
+namespace Tests\Unit\Application\AggregateRoot;
 
 use TennisGame\Domain\Exception\PlayerNickIsAlreadyTaken;
-use TennisGame\Domain\Policy\PlayerRegistrationPolicy;
-use TennisGame\TennisGame1;
 use Tests\Kit\GameApplication;
 
-class TennisGame1Test extends TestMaster
+class TennisGameNumberOneTest extends TestMaster
 {
     protected function setUp(): void
     {
@@ -18,7 +16,7 @@ class TennisGame1Test extends TestMaster
         $this->gameApplication = new GameApplication();
     }
 
-    public function testAllRegisteredUserNicksMustBeUnique(): void
+    public function testAllDuplicatedPlayerNickWillBeDetected(): void
     {
         // Arrange
         $duplicatedNick = 'myAwesomeNick';
@@ -28,6 +26,15 @@ class TennisGame1Test extends TestMaster
 
         // Act
         $this->gameApplication->createTennisGameNumberOne($duplicatedNick, $duplicatedNick);
+    }
+
+    public function testAllPlayersSavedSuccessfully(): void
+    {
+        // Arrange && Act
+        $this->gameApplication->createTennisGameNumberOne('player1', 'player2');
+
+        // Assert
+        self::assertCount(2, $this->gameApplication->playersRepository->findAll());
     }
 
     /**
@@ -42,6 +49,6 @@ class TennisGame1Test extends TestMaster
         $this->seedScores($game, $score1, $score2);
 
         // Assert
-        $this->assertSame($expectedResult, $game->getScore());
+        $this->assertSame($expectedResult, $game->getMatchScoreDescription());
     }
 }

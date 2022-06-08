@@ -5,8 +5,9 @@ declare(strict_types=1);
 
 namespace TennisGame\Application\Repository;
 
+use TennisGame\Domain\Collection\PlayerCollection;
+use TennisGame\Domain\Entity\Player;
 use TennisGame\Domain\Exception\PlayerNotFound;
-use TennisGame\Domain\Player;
 
 final class InMemoryPlayerRepository implements PlayersRepository
 {
@@ -37,5 +38,10 @@ final class InMemoryPlayerRepository implements PlayersRepository
     public function clear(): void
     {
         $this->registeredPlayers = [];
+    }
+
+    public function findAll(): PlayerCollection
+    {
+        return new PlayerCollection(...array_values($this->registeredPlayers));
     }
 }

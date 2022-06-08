@@ -1,6 +1,6 @@
 <?php
 
-namespace TennisGame;
+namespace TennisGame\Application\AggregateRoot;
 
 class TennisGame2 implements TennisGame
 {
@@ -18,7 +18,7 @@ class TennisGame2 implements TennisGame
         $this->player2Name = $player2Name;
     }
 
-    public function getScore()
+    public function getMatchScoreDescription()
     {
         $score = "";
         if ($this->P1point == $this->P2point && $this->P1point < 4) {

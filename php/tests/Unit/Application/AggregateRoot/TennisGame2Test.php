@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Tests;
+namespace Tests\Unit\Application\AggregateRoot;
 
-use TennisGame\TennisGame3;
+use TennisGame\Application\AggregateRoot\TennisGame2;
 
 /**
- * TennisGame1 test case.
+ * TennisGameNumberOne test case.
  */
-class TennisGame3Test extends TestMaster
+class TennisGame2Test extends TestMaster
 {
     /**
      * Prepares the environment before running a test.
@@ -17,7 +17,7 @@ class TennisGame3Test extends TestMaster
     protected function setUp(): void
     {
         parent::setUp();
-        $this->game = new TennisGame3('player1', 'player2');
+        $this->game = new TennisGame2('player1', 'player2');
     }
 
     /**
@@ -26,6 +26,6 @@ class TennisGame3Test extends TestMaster
     public function testScores(int $score1, int $score2, string $expectedResult): void
     {
         $this->seedScores($score1, $score2);
-        $this->assertSame($expectedResult, $this->game->getScore());
+        $this->assertSame($expectedResult, $this->game->getMatchScoreDescription());
     }
 }

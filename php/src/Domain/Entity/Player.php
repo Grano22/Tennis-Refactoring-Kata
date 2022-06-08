@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 
-namespace TennisGame\Domain;
+namespace TennisGame\Domain\Entity;
 
 use JetBrains\PhpStorm\Immutable;
 

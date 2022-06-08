@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Tests;
+namespace Tests\Unit\Application\AggregateRoot;
 
 use PHPUnit\Framework\TestCase;
-use TennisGame\Application\Repository\PlayersRepository;
-use TennisGame\TennisGame;
+use TennisGame\Application\AggregateRoot\TennisGame;
 use Tests\Kit\GameApplication;
 
 abstract class TestMaster extends TestCase
