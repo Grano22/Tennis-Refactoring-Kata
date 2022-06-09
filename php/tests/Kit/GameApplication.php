@@ -8,12 +8,12 @@ namespace Tests\Kit;
 use TennisGame\Application\AggregateRoot\ScoreCollector;
 use TennisGame\Application\AggregateRoot\TennisGameNumberOne;
 use TennisGame\Application\Repository\InMemoryPlayerRepository;
-use TennisGame\Application\Repository\PlayersRepository;
+use TennisGame\Application\Repository\PlayerRepository;
 use TennisGame\Domain\Policy\PlayerRegistrationPolicy;
 
 final class GameApplication
 {
-    public readonly PlayersRepository $playersRepository;
+    public readonly PlayerRepository $playersRepository;
 
     public function __construct() {
         $this->playersRepository = new InMemoryPlayerRepository();

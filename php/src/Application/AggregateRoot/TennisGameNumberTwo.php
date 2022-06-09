@@ -2,7 +2,7 @@
 
 namespace TennisGame\Application\AggregateRoot;
 
-class TennisGame2 implements TennisGame
+class TennisGameNumberTwo implements TennisGame
 {
     private $P1point = 0;
     private $P2point = 0;

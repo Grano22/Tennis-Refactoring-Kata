@@ -5,7 +5,7 @@ namespace TennisGame\Application\Repository;
 use TennisGame\Domain\Collection\PlayerCollection;
 use TennisGame\Domain\Entity\Player;
 
-interface PlayersRepository
+interface PlayerRepository
 {
     public function hasWithNick(string $nick): bool;
     public function store(string $nick): void;

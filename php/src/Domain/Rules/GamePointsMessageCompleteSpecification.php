@@ -11,37 +11,40 @@ use TennisGame\Domain\Specification\GamePointsMessageGenerationStrategySpecifica
 
 final class GamePointsMessageCompleteSpecification
 {
-    private bool $completion;
-
     /** @var GamePointsMessageCompleteSpecification[] $relatedSpecifications */
     private array $relatedSpecifications;
 
     public static function asSatisfied(GamePointsMessageGenerationStrategySpecification $specification): self
     {
-        return (new self($specification::class))->markSpecificationCompletion(true);
+        return new self($specification::class, true);
     }
 
     public static function asUnsatisfied(GamePointsMessageGenerationStrategySpecification $specification): self
     {
-        return (new self($specification::class))->markSpecificationCompletion(false);
+        return new self($specification::class, false);
     }
 
     public static function asCompound(GamePointsMessageGenerationStrategySpecification $specification): self
     {
-        return new self($specification::class);
+        return new self($specification::class, null);
     }
 
-    private function __construct(private readonly string $specificationClass)
+    private function __construct(private readonly string $specificationClass, private readonly ?bool $completion)
     {
     }
 
     public function isSatisfied(): bool
     {
-        if (!isset($this->completion)) {
-            throw new RuntimeException('Cannot get completion of specification');
-        }
-
-        return $this->completion;
+        return $this->completion === null ?
+            (bool)array_reduce(
+                $this->relatedSpecifications,
+                static fn(
+                    bool &$carry,
+                    GamePointsMessageCompleteSpecification $completeSpecification
+                ) => $carry &= $completeSpecification->isSatisfied(),
+                true
+            ) :
+            $this->completion;
     }
 
     public function getSpecificationType(): string
@@ -62,17 +65,6 @@ final class GamePointsMessageCompleteSpecification
         }
 
         $this->relatedSpecifications[] = $anotherSpec;
-
-        return $this;
-    }
-
-    public function markSpecificationCompletion(bool $completion): self
-    {
-        if (isset($this->completion)) {
-            throw new RuntimeException('Cannot mark specification when is finished');
-        }
-
-        $this->completion = $completion;
 
         return $this;
     }

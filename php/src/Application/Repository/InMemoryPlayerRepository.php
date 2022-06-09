@@ -9,7 +9,7 @@ use TennisGame\Domain\Collection\PlayerCollection;
 use TennisGame\Domain\Entity\Player;
 use TennisGame\Domain\Exception\PlayerNotFound;
 
-final class InMemoryPlayerRepository implements PlayersRepository
+final class InMemoryPlayerRepository implements PlayerRepository
 {
     private array $registeredPlayers = [];
 
