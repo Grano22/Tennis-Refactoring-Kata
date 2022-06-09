@@ -5,6 +5,7 @@ declare(strict_types=1);
 
 namespace TennisGame\Application\Strategy;
 
+use TennisGame\Application\Visitor\GamePointsSpecificationCheckerVisitor;
 use TennisGame\Domain\Rules\GamePointsMessageCompleteSpecification;
 use TennisGame\Domain\Specification\GameDrawMessageGenerationSpecification;
 
@@ -22,7 +23,11 @@ final class GameDrawPointsMessageGenerationStrategy implements GamerPointsMessag
 
     public function supports(GamePointsMessageCompleteSpecification $passedSpecifications): bool
     {
-        return $passedSpecifications
-            ->isSatisfiedByAsFirstRelatedSpecificationType(GameDrawMessageGenerationSpecification::class);
+        $checkerVisitor = new GamePointsSpecificationCheckerVisitor(
+            GamePointsSpecificationCheckerVisitor::ONLY_AS_FIRST_SPECIFICATION_MUST_BE_SATISFIED,
+            GameDrawMessageGenerationSpecification::class
+        );
+
+        return $passedSpecifications->checkSpecification($checkerVisitor);
     }
 }

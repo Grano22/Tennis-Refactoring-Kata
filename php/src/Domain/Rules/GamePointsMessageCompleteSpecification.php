@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace TennisGame\Domain\Rules;
 
 use RuntimeException;
+use TennisGame\Application\Visitor\GamePointsSpecificationCheckerVisitor;
 use TennisGame\Domain\Specification\GamePointsMessageGenerationStrategySpecification;
 
 final class GamePointsMessageCompleteSpecification
@@ -48,45 +49,11 @@ final class GamePointsMessageCompleteSpecification
         return $this->specificationClass;
     }
 
-    public function isSatisfiedByOnlyOneRelatedSpecificationType(string $specificationType): bool
+    public function checkSpecification(GamePointsSpecificationCheckerVisitor &$checkerVisitor): bool
     {
-        foreach ($this->relatedSpecifications as $relatedSpecification)
-        {
-            if (
-                $relatedSpecification->isSatisfied() &&
-                $relatedSpecification->getSpecificationType() !== $specificationType
-            ) {
-                return false;
-            }
-        }
+        $checkerVisitor->checkCriteria($this->relatedSpecifications);
 
-        return $this->isSatisfiedByOneRelatedSpecificationType($specificationType);
-    }
-
-    public function isSatisfiedByOneRelatedSpecificationType(string $specificationType): bool
-    {
-        foreach ($this->relatedSpecifications as $relatedSpecification)
-        {
-            if ($relatedSpecification->getSpecificationType() === $specificationType)
-            {
-                return $relatedSpecification->isSatisfied();
-            }
-        }
-
-        return false;
-    }
-
-    public function isSatisfiedByAsFirstRelatedSpecificationType(string $specificationType): bool
-    {
-        foreach ($this->relatedSpecifications as $relatedSpecification)
-        {
-            if ($relatedSpecification->isSatisfied())
-            {
-                return $relatedSpecification->getSpecificationType() === $specificationType;
-            }
-        }
-
-        return false;
+        return $checkerVisitor->isExpectationMeeted();
     }
 
     public function extendSpecification(GamePointsMessageCompleteSpecification $anotherSpec): self {
