@@ -2,6 +2,10 @@
 
 namespace TennisGame\Application\AggregateRoot;
 
+use TennisGame\Application\Repository\PlayerRepository;
+use TennisGame\Application\Service\PlayerRegistration;
+use TennisGame\Domain\Entity\Player;
+
 class TennisGameNumberTwo implements TennisGame
 {
     private $P1point = 0;
@@ -9,16 +13,20 @@ class TennisGameNumberTwo implements TennisGame
 
     private $P1res = "";
     private $P2res = "";
-    private $player1Name = "";
-    private $player2Name = "";
 
-    public function __construct($player1Name, $player2Name)
-    {
-        $this->player1Name = $player1Name;
-        $this->player2Name = $player2Name;
+    public function __construct(
+        private readonly PlayerRegistration $playerRegistration,
+        private readonly PlayerRepository   $playersRepository,
+        private readonly ScoreCollector     $scoreCollector,
+        string                              $firstPlayerNick,
+        string                              $secondPlayerNick
+    ) {
+        $this->playerRegistration->registerPlayers(new Player($firstPlayerNick), new Player($secondPlayerNick));
+        $this->scoreCollector->initiateForPlayer($firstPlayerNick);
+        $this->scoreCollector->initiateForPlayer($secondPlayerNick);
     }
 
-    public function getMatchScoreDescription()
+    public function getMatchScoreDescription(): string
     {
         $score = "";
         if ($this->P1point == $this->P2point && $this->P1point < 4) {
@@ -118,36 +126,8 @@ class TennisGameNumberTwo implements TennisGame
         return $score;
     }
 
-    private function SetP1Score($number)
+    public function wonPoint(string $playerNick): void
     {
-        for ($i = 0; $i < $number; $i++) {
-            $this->P1Score();
-        }
-    }
-
-    private function SetP2Score($number)
-    {
-        for ($i = 0; $i < $number; $i++) {
-            $this->P2Score();
-        }
-    }
-
-    private function P1Score()
-    {
-        $this->P1point++;
-    }
-
-    private function P2Score()
-    {
-        $this->P2point++;
-    }
-
-    public function wonPoint($player)
-    {
-        if ($player == "player1") {
-            $this->P1Score();
-        } else {
-            $this->P2Score();
-        }
+        $this->scoreCollector->addPointToPlayer($playerNick);
     }
 }

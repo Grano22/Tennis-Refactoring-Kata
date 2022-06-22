@@ -18,13 +18,14 @@ final class GamePointsMessageStrategyComposite
      */
     private readonly array $strategies;
 
-    public function __construct()
+    public static function withStrategies(GamerPointsMessageGenerationStrategy ...$messageGenerationStrategy): self
     {
-        $this->strategies = [
-            new GameDrawPointsMessageGenerationStrategy(),
-            new GameMidPointsMessageGenerationStrategy(),
-            new GameDefaultPointsMessageGenerationStrategy()
-        ];
+        return new self(...$messageGenerationStrategy);
+    }
+
+    public function __construct(GamerPointsMessageGenerationStrategy ...$messageGenerationStrategy)
+    {
+        $this->strategies = $messageGenerationStrategy;
     }
 
     public function produceMessageFromStrategiesWhichSupportSpecification(

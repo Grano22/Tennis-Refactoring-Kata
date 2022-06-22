@@ -11,6 +11,9 @@ use TennisGame\Domain\Exception\PlayerNotFound;
 
 final class InMemoryPlayerRepository implements PlayerRepository
 {
+    /**
+     * @var Player[] $registeredPlayers
+     */
     private array $registeredPlayers = [];
 
     public function hasWithNick(string $nick): bool

@@ -2,18 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Application\AggregateRoot;
+namespace Tests\Unit\Application\GameMode;
 
 use TennisGame\Application\AggregateRoot\TennisGameNumberTwo;
 
-/**
- * TennisGameNumberOne test case.
- */
-class TennisGameNumberTwoTest extends TestMaster
+class SecondTennisGameModeTest extends GameModeTester
 {
-    /**
-     * Prepares the environment before running a test.
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -21,7 +15,7 @@ class TennisGameNumberTwoTest extends TestMaster
     }
 
     /**
-     * @dataProvider data
+     * @dataProvider provideScoreSampleData
      */
     public function testScores(int $score1, int $score2, string $expectedResult): void
     {

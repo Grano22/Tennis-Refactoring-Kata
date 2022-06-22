@@ -2,20 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Application\AggregateRoot;
+namespace Tests\Unit\Application\GameMode;
 
 use PHPUnit\Framework\TestCase;
-use TennisGame\Application\AggregateRoot\TennisGame;
-use Tests\Kit\GameApplication;
+use TennisGame\Application\GameMode\GameMode;
 
-abstract class TestMaster extends TestCase
+abstract class GameModeTester extends TestCase
 {
-    protected ?GameApplication $gameApplication = null;
+    protected GameMode $gameMode;
 
     /**
-     * @return mixed[][]
+     * @return array<string, array>
      */
-    public function data()
+    public function provideScoreSampleData(): array
     {
         return [
             '0-0' => [0, 0, 'Love-All'],
@@ -52,18 +51,5 @@ abstract class TestMaster extends TestCase
             '16-14' => [16, 14, 'Win for player1'],
             '14-16' => [14, 16, 'Win for player2'],
         ];
-    }
-
-    protected function seedScores(TennisGame $game, int $score1, int $score2): void
-    {
-        $highestScore = max($score1, $score2);
-        for ($i = 0; $i < $highestScore; $i++) {
-            if ($i < $score1) {
-                $game->wonPoint('player1');
-            }
-            if ($i < $score2) {
-                $game->wonPoint('player2');
-            }
-        }
     }
 }

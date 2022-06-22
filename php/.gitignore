@@ -5,3 +5,5 @@
 /build/
 
 composer.lock
+
+trash.php

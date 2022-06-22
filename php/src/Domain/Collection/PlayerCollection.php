@@ -9,6 +9,9 @@ use JetBrains\PhpStorm\Immutable;
 use TennisGame\Domain\Entity\Player;
 
 #[Immutable]
+/**
+ * @extends Collection<Player>
+ */
 final class PlayerCollection extends Collection
 {
     public function __construct(Player ...$players) {

@@ -2,20 +2,29 @@
 
 namespace TennisGame\Application\AggregateRoot;
 
-class TennisGame3 implements TennisGame
+use TennisGame\Application\Repository\PlayerRepository;
+use TennisGame\Application\Service\PlayerRegistration;
+
+class TennisGameNumberThree implements TennisGame
 {
     private $p2 = 0;
     private $p1 = 0;
     private $p1N = '';
     private $p2N = '';
 
-    public function __construct($p1N, $p2N)
+    public function __construct(
+        private readonly PlayerRegistration $playerRegistration,
+        private readonly PlayerRepository   $playersRepository,
+        private readonly ScoreCollector     $scoreCollector,
+        string $firstPlayerNick,
+        string $secondPlayerNick
+    )
     {
         $this->p1N = $p1N;
         $this->p2N = $p2N;
     }
 
-    public function getMatchScoreDescription()
+    public function getMatchScoreDescription(): string
     {
         if ($this->p1 < 4 && $this->p2 < 4 && !($this->p1 + $this->p2 == 6)) {
             $p = array("Love", "Fifteen", "Thirty", "Forty");
@@ -29,14 +38,4 @@ class TennisGame3 implements TennisGame
             return (($this->p1 - $this->p2) * ($this->p1 - $this->p2) == 1) ? "Advantage {$s}" : "Win for {$s}";
         }
     }
-
-    public function wonPoint($playerNick)
-    {
-        if ($playerNick == "player1") {
-            $this->p1++;
-        } else {
-            $this->p2++;
-        }
-    }
-
 }

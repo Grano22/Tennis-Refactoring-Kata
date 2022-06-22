@@ -1,5 +1,9 @@
 # Tennis Refactoring Kata - PHP Version
 
+# Used Design patterns
+
+- GameMode - 
+
 See the [top level readme](../README.md) for general information about this exercise. This is the PHP version of the
  Tennis Refactoring Kata.
 

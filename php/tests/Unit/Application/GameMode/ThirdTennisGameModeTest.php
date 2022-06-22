@@ -2,26 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Application\AggregateRoot;
+namespace Tests\Unit\Application\GameMode;
 
-use TennisGame\Application\AggregateRoot\TennisGame3;
+use TennisGame\Application\AggregateRoot\TennisGameNumberThree;
 
-/**
- * TennisGameNumberOne test case.
- */
-class TennisGame3Test extends TestMaster
+class ThirdTennisGameModeTest extends GameModeTester
 {
-    /**
-     * Prepares the environment before running a test.
-     */
     protected function setUp(): void
     {
         parent::setUp();
-        $this->game = new TennisGame3('player1', 'player2');
+        $this->game = new TennisGameNumberThree('player1', 'player2');
     }
 
     /**
-     * @dataProvider data
+     * @dataProvider provideScoreSampleData
      */
     public function testScores(int $score1, int $score2, string $expectedResult): void
     {
