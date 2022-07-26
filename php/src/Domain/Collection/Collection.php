@@ -2,36 +2,38 @@
 
 declare(strict_types=1);
 
-
 namespace TennisGame\Domain\Collection;
 
 use ArrayIterator;
 use Countable;
 use IteratorAggregate;
-use JetBrains\PhpStorm\Immutable;
 
-#[Immutable]
 /**
- * @template T
+ * @template TValue
+ * @psalm-template TValue
+ * @phpstan-template TValue
+ * @psalm-immutable
  *
- * @implements IteratorAggregate<int, T>
+ * @implements IteratorAggregate<int, TValue>
+ * @see https://youtrack.jetbrains.com/issue/WI-62386 - it's about my prevous problem :)
  */
 abstract class Collection implements Countable, IteratorAggregate
 {
     /**
-     * @var T[] $items
+     * @var array<int, TValue> $items
+     * @internal
      */
     protected readonly array $items;
 
     /**
-     * @param T[] $items
+     * @param TValue[] $items
      */
     protected function __construct(array $items) {
         $this->items = $items;
     }
 
     /**
-     * @return ArrayIterator<int, T>
+     * @return ArrayIterator<int, TValue>
      */
     public function getIterator(): ArrayIterator
     {
@@ -44,7 +46,7 @@ abstract class Collection implements Countable, IteratorAggregate
     }
 
     /**
-     * @return T[]
+     * @return TValue[]
      */
     public function toArray(): array
     {

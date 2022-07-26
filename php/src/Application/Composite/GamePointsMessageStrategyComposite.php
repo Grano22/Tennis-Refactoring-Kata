@@ -9,6 +9,7 @@ use TennisGame\Application\Strategy\GameDefaultPointsMessageGenerationStrategy;
 use TennisGame\Application\Strategy\GameDrawPointsMessageGenerationStrategy;
 use TennisGame\Application\Strategy\GameMidPointsMessageGenerationStrategy;
 use TennisGame\Application\Strategy\GamerPointsMessageGenerationStrategy;
+use TennisGame\Domain\Model\MatchScore;
 use TennisGame\Domain\Rules\GamePointsMessageCompleteSpecification;
 
 final class GamePointsMessageStrategyComposite
@@ -30,8 +31,8 @@ final class GamePointsMessageStrategyComposite
 
     public function produceMessageFromStrategiesWhichSupportSpecification(
         GamePointsMessageCompleteSpecification $specDetails,
-        int $firstPlayerPoints,
-        int $secondPlayerPoints
+        MatchScore $firstPlayerPoints,
+        MatchScore $secondPlayerPoints
     ): string {
         $messageParts = [];
 

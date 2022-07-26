@@ -6,21 +6,22 @@ declare(strict_types=1);
 namespace TennisGame\Application\Strategy;
 
 use TennisGame\Application\Visitor\GamePointsSpecificationCheckerVisitor;
+use TennisGame\Domain\Model\MatchScore;
 use TennisGame\Domain\Rules\GamePointsMessageCompleteSpecification;
 use TennisGame\Domain\Specification\GameDefaultScoreGenerationSpecification;
 
 final class GameDefaultPointsMessageGenerationStrategy implements GamerPointsMessageGenerationStrategy
 {
-    public function makeMessage(int $firstPlayerPoints, int $secondPlayerPoints): string
+    public function makeMessage(MatchScore $firstPlayerPoints, MatchScore $secondPlayerPoints): string
     {
         return sprintf(
             '%s-%s',
-            $this->scoreToName($firstPlayerPoints),
-            $this->scoreToName($secondPlayerPoints)
+            $this->scoreValueToName($firstPlayerPoints->amount),
+            $this->scoreValueToName($secondPlayerPoints->amount)
         );
     }
 
-    private function scoreToName(int $score): string
+    private function scoreValueToName(int $score): string
     {
         return match($score) {
             0 => "Love",

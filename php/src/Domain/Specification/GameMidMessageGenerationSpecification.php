@@ -5,10 +5,13 @@ declare(strict_types=1);
 
 namespace TennisGame\Domain\Specification;
 
-final class GameMidMessageGenerationSpecification extends GamePointsMessageGenerationStatementSpecification implements GamePointsMessageGenerationStrategySpecification
+use TennisGame\Domain\Model\MatchScore;
+
+final class GameMidMessageGenerationSpecification extends GamePointsMessageGenerationStatementSpecification
+    implements GamePointsMessageGenerationStrategySpecification
 {
-    public function isSatisfiedWhen(int $firstPlayerPoints, int $secondPlayerPoints): bool
+    public function isSatisfiedWhen(MatchScore $firstPlayerPoints, MatchScore $secondPlayerPoints): bool
     {
-        return $firstPlayerPoints >= 4 || $secondPlayerPoints >= 4;
+        return $firstPlayerPoints->amount >= 4 || $secondPlayerPoints->amount >= 4;
     }
 }

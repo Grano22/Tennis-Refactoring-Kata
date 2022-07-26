@@ -1,3 +1,0 @@
-composer phpstan 
-pause
-exit

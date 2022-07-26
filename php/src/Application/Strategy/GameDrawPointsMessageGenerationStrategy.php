@@ -6,14 +6,15 @@ declare(strict_types=1);
 namespace TennisGame\Application\Strategy;
 
 use TennisGame\Application\Visitor\GamePointsSpecificationCheckerVisitor;
+use TennisGame\Domain\Model\MatchScore;
 use TennisGame\Domain\Rules\GamePointsMessageCompleteSpecification;
 use TennisGame\Domain\Specification\GameDrawMessageGenerationSpecification;
 
 final class GameDrawPointsMessageGenerationStrategy implements GamerPointsMessageGenerationStrategy
 {
-    public function makeMessage(int $firstPlayerPoints, int $secondPlayerPoints): string
+    public function makeMessage(MatchScore $firstPlayerPoints, MatchScore $secondPlayerPoints): string
     {
-        return match ($firstPlayerPoints) {
+        return match ($firstPlayerPoints->amount) {
             0 => "Love-All",
             1 => "Fifteen-All",
             2 => "Thirty-All",

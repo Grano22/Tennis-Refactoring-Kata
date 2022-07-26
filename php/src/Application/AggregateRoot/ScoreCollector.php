@@ -6,17 +6,18 @@ declare(strict_types=1);
 namespace TennisGame\Application\AggregateRoot;
 
 use TennisGame\Domain\Exception\PlayerDoNotHaveInitializedScore;
+use TennisGame\Domain\Model\MatchScore;
 
 final class ScoreCollector
 {
     /**
-     * @var int[] $playersScore
+     * @var MatchScore[] $playersScore
      */
     private array $playersScore = [];
 
     public function initiateForPlayer(string $playerNick): void
     {
-        $this->playersScore[$playerNick] = 0;
+        $this->playersScore[$playerNick] = new MatchScore(0);
     }
 
     /**
@@ -28,13 +29,13 @@ final class ScoreCollector
             throw PlayerDoNotHaveInitializedScore::forGivenNick($playerNick);
         }
 
-        $this->playersScore[$playerNick] += 1;
+        $this->playersScore[$playerNick] = $this->playersScore[$playerNick]->add(1);
     }
 
     /**
      * @throws PlayerDoNotHaveInitializedScore
      */
-    public function getByPlayer(string $playerNick): int
+    public function getByPlayer(string $playerNick): MatchScore
     {
         if (!$this->playerHaveInitializedScore($playerNick)) {
             throw PlayerDoNotHaveInitializedScore::forGivenNick($playerNick);

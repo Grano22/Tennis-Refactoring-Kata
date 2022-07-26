@@ -4,6 +4,10 @@
 /.phpunit.result.cache
 /build/
 
-composer.lock
+analysis/
+tmp-phpqa/
 
+composer.lock
 trash.php
+
+.DS_STORE

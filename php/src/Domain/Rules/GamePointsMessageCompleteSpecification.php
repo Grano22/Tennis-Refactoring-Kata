@@ -35,16 +35,14 @@ final class GamePointsMessageCompleteSpecification
 
     public function isSatisfied(): bool
     {
-        return $this->completion === null ?
-            (bool)array_reduce(
-                $this->relatedSpecifications,
-                static fn(
-                    bool &$carry,
-                    GamePointsMessageCompleteSpecification $completeSpecification
-                ) => $carry &= $completeSpecification->isSatisfied(),
-                true
-            ) :
-            $this->completion;
+        $specificationSatisfaction = array_reduce(
+            $this->relatedSpecifications,
+            static fn(bool &$carry, GamePointsMessageCompleteSpecification $completeSpecification): bool =>
+                $carry = $carry && $completeSpecification->isSatisfied(),
+            true
+        );
+
+        return $this->completion === null ? $specificationSatisfaction : $this->completion;
     }
 
     public function getSpecificationType(): string
@@ -52,11 +50,11 @@ final class GamePointsMessageCompleteSpecification
         return $this->specificationClass;
     }
 
-    public function checkSpecification(GamePointsSpecificationCheckerVisitor &$checkerVisitor): bool
+    public function checkSpecification(GamePointsSpecificationCheckerVisitor $checkerVisitor): bool
     {
         $checkerVisitor->checkCriteria($this->relatedSpecifications);
 
-        return $checkerVisitor->isExpectationMeeted();
+        return $checkerVisitor->isExpectationComeTrue();
     }
 
     public function extendSpecification(GamePointsMessageCompleteSpecification $anotherSpec): self {

@@ -8,6 +8,7 @@ namespace TennisGame\Application\GameMode;
 use TennisGame\Application\Composite\GamePointsMessageCompositeSpecification;
 use TennisGame\Application\Composite\GamePointsMessageStrategyComposite;
 use TennisGame\Application\Strategy\GamerPointsMessageGenerationStrategy;
+use TennisGame\Domain\Model\MatchScore;
 use TennisGame\Domain\Specification\GamePointsMessageGenerationStatementSpecification;
 
 abstract class GameMode
@@ -22,7 +23,7 @@ abstract class GameMode
      */
     protected abstract function registerMatchScoreMessageGenerationSpecifications(): array;
 
-    public function prepareMessageFromMatchPoints(int $firstPlayerPoints, int $secondPlayerPoints): string
+    public function prepareMessageFromMatchPoints(MatchScore $firstPlayerPoints, MatchScore $secondPlayerPoints): string
     {
         $specificationDetails = GamePointsMessageCompositeSpecification::createWithSubSpecList(
             ...$this->registerMatchScoreMessageGenerationSpecifications()

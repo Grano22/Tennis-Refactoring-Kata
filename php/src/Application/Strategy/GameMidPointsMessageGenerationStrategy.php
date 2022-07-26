@@ -6,15 +6,16 @@ declare(strict_types=1);
 namespace TennisGame\Application\Strategy;
 
 use TennisGame\Application\Visitor\GamePointsSpecificationCheckerVisitor;
+use TennisGame\Domain\Model\MatchScore;
 use TennisGame\Domain\Rules\GamePointsMessageCompleteSpecification;
 use TennisGame\Domain\Specification\GameDefaultScoreGenerationSpecification;
 use TennisGame\Domain\Specification\GameMidMessageGenerationSpecification;
 
 final class GameMidPointsMessageGenerationStrategy implements GamerPointsMessageGenerationStrategy
 {
-    public function makeMessage(int $firstPlayerPoints, int $secondPlayerPoints): string
+    public function makeMessage(MatchScore $firstPlayerPoints, MatchScore $secondPlayerPoints): string
     {
-        $minusResult = $firstPlayerPoints - $secondPlayerPoints;
+        $minusResult = $firstPlayerPoints->amount - $secondPlayerPoints->amount;
 
         if ($minusResult === 1) {
             return "Advantage player1";

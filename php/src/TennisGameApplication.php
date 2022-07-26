@@ -44,7 +44,7 @@ final class TennisGameApplication
     {
         $this->checkIfGameIsConfigured();
 
-        list($playerNumberOne, $playerNumberTwo) = $this->playersRepository->findAll()->toArray();
+        [$playerNumberOne, $playerNumberTwo] = $this->playersRepository->findAll()->toArray();
 
         $firstPlayerPoints = $this->scoreCollector->getByPlayer($playerNumberOne->nick);
         $secondPlayerPoints = $this->scoreCollector->getByPlayer($playerNumberTwo->nick);

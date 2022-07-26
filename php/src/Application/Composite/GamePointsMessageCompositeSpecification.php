@@ -5,6 +5,7 @@ declare(strict_types=1);
 
 namespace TennisGame\Application\Composite;
 
+use TennisGame\Domain\Model\MatchScore;
 use TennisGame\Domain\Rules\GamePointsMessageCompleteSpecification;
 use TennisGame\Domain\Specification\GamePointsMessageGenerationStatementSpecification;
 use TennisGame\Domain\Specification\GamePointsMessageGenerationStrategySpecification;
@@ -27,7 +28,7 @@ final class GamePointsMessageCompositeSpecification implements GamePointsMessage
         $this->specifications = $specifications;
     }
 
-    public function isSatisfiedBy(int $firstPlayerPoints, int $secondPlayerPoints): GamePointsMessageCompleteSpecification
+    public function isSatisfiedBy(MatchScore $firstPlayerPoints, MatchScore $secondPlayerPoints): GamePointsMessageCompleteSpecification
     {
         $specCompleteDetails = GamePointsMessageCompleteSpecification::asCompound($this);
 

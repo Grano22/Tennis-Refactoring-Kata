@@ -1,5 +1,20 @@
 version: "3.8"
 
 services:
-   tennis_refactor_php:
-     container_name: tennis_refactor_php
+#   tennis_refactor_php:
+#     container_name: tennis_refactor_php
+
+    static_analysis_tools:
+      container_name: static_analysis_tools
+      image: jakzal/phpqa
+      working_dir: '/project'
+      command: >
+        bash -c "
+        phpstan analyse src;
+        phpcs -h /project/src;
+        phpmetrics --report-html=/project/analysis/phpmetrics /project/src
+        "
+      volumes:
+        - './:/project'
+        - './tmp-phpqa:/tmp'
+

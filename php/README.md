@@ -1,8 +1,16 @@
 # Tennis Refactoring Kata - PHP Version
 
+# Update
+
+- Run code analysis by docker-compose up (currently: phpstan, phpcs and phpmetrics)
+- Create missing dirs for analysis by ./bin/prepareAnalysisWorkspace.sh
+
 # Used Design patterns
 
-- GameMode - 
+- GameMode - Template method
+- Composite, Specification nad Strategy
+- Visitor
+- Mather Object
 
 See the [top level readme](../README.md) for general information about this exercise. This is the PHP version of the
  Tennis Refactoring Kata.
